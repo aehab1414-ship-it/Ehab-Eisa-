@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: wad-haneen-dashboard
+    runtime: node
+    plan: starter
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: wad-haneen-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_NAME
+        value: Company Administrator
+      - key: CLIENT_URL
+        value: ""
+databases:
+  - name: wad-haneen-db
+    plan: basic-256mb
+    databaseName: wad_haneen_db
+    user: wad_haneen_user
